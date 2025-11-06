@@ -120,7 +120,8 @@ lost-and-found-campus/
 
 ---
 
-## 🧾 License
+## 🧾 Project Assignment By:
 
-This project is open-source and available under the **MIT License**.  
-You are free to modify and adapt it for your own campus or institution.
+- Amlan Prateek Panda (123CS0200)
+- Anshuman Panda (123CS0201)
+- Priyabrata Sahu (123CS0220)
