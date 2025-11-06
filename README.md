@@ -124,4 +124,6 @@ lost-and-found-campus/
 
 - Amlan Prateek Panda (123CS0200)
 - Anshuman Panda (123CS0201)
+- Soubhagya Sahoo (123CS0218)
 - Priyabrata Sahu (123CS0220)
+- Santoshi (123CS0223)
