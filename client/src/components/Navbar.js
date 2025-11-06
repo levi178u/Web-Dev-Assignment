@@ -23,10 +23,11 @@ const Navbar = () => {
     <div
       style={{
         width: '100%',
-        background: '#ffffff',
-        boxShadow: '0 3px 10px rgba(0,0,0,0.1)',
-        borderRadius: '0 0 15px 15px',
-        padding: '10px 40px',
+        background: 'rgba(255, 255, 255, 0.8)',
+        backdropFilter: 'blur(10px)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+        borderRadius: '0 0 20px 20px',
+        padding: '15px 50px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -44,34 +45,42 @@ const Navbar = () => {
           alignItems: 'center',
           textDecoration: 'none',
           color: '#1a1a1a',
-          gap: '10px',
+          gap: '12px',
         }}
       >
         <img
           src="https://i.ibb.co/G2851XX/Main-Logo-1.png"
           alt="Lost & Found Logo"
-          style={{ width: '50px', height: '50px', borderRadius: '10px' }}
+          style={{
+            width: '55px',
+            height: '55px',
+            borderRadius: '12px',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+          }}
         />
         <div>
           <h2
             style={{
+              fontFamily: 'Poppins, sans-serif',
               fontWeight: '700',
-              fontSize: '20px',
+              fontSize: '22px',
               margin: 0,
-              letterSpacing: '0.5px',
+              color: '#1a1a1a',
+              letterSpacing: '0.6px',
             }}
           >
             Lost & Found
           </h2>
           <p
             style={{
-              fontSize: '12px',
+              fontSize: '13px',
               margin: 0,
               color: '#555',
-              letterSpacing: '0.3px',
+              fontWeight: '400',
+              letterSpacing: '0.4px',
             }}
           >
-            Find it. Return it. Reconnect.
+            Find it • Return it • Reconnect
           </p>
         </div>
       </Link>
@@ -81,78 +90,61 @@ const Navbar = () => {
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '25px',
+          gap: '30px',
           justifyContent: 'center',
           flexWrap: 'wrap',
         }}
       >
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-          <Link
-            to="/"
-            style={{
-              textDecoration: 'none',
-              fontWeight: 600,
-              color: '#333',
-              transition: 'color 0.3s',
-            }}
-          >
-            Home
-          </Link>
-        </motion.div>
-
-        {/* Items Browser Dropdown */}
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-          <Button
-            id="basic-button"
-            aria-controls={open ? 'basic-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleClick}
-            endIcon={<BsFillCaretDownFill size="15px" />}
-            disableRipple
-            sx={{
-              fontWeight: 600,
-              textTransform: 'none',
-              color: '#333',
-              '&:hover': { color: '#007BFF', background: 'transparent' },
-            }}
-          >
-            Items Browser
-          </Button>
-        </motion.div>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-        >
-          <MenuItem
-            component={Link}
-            to={token ? '/LostItems' : '/log-in'}
-            onClick={handleClose}
-          >
-            Lost Items
-          </MenuItem>
-          <MenuItem
-            component={Link}
-            to={token ? '/FoundItems' : '/log-in'}
-            onClick={handleClose}
-          >
-            Found Items
-          </MenuItem>
-        </Menu>
-
         {token && (
           <>
+            {/* Dropdown */}
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+              <Button
+                id="basic-button"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+                endIcon={<BsFillCaretDownFill size="15px" />}
+                disableRipple
+                sx={{
+                  fontWeight: 600,
+                  fontFamily: 'Poppins, sans-serif',
+                  textTransform: 'none',
+                  color: '#333',
+                  fontSize: '16px',
+                  '&:hover': { color: '#007BFF', background: 'transparent' },
+                }}
+              >
+                Browse
+              </Button>
+            </motion.div>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <MenuItem component={Link} to="/LostItems" onClick={handleClose}>
+                Lost Items
+              </MenuItem>
+              <MenuItem component={Link} to="/FoundItems" onClick={handleClose}>
+                Found Items
+              </MenuItem>
+            </Menu>
+
+            {/* Links */}
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
               <Link
                 to="/mylistings"
                 style={{
                   textDecoration: 'none',
                   fontWeight: 600,
+                  fontFamily: 'Poppins, sans-serif',
+                  fontSize: '16px',
                   color: '#333',
                   transition: 'color 0.3s',
                 }}
@@ -160,12 +152,15 @@ const Navbar = () => {
                 My Listings
               </Link>
             </motion.div>
+
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
               <Link
                 to="/postitem"
                 style={{
                   textDecoration: 'none',
                   fontWeight: 600,
+                  fontFamily: 'Poppins, sans-serif',
+                  fontSize: '16px',
                   color: '#333',
                   transition: 'color 0.3s',
                 }}
@@ -177,57 +172,82 @@ const Navbar = () => {
         )}
       </div>
 
-      {/* Right: Buttons */}
-      <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+      {/* Right: Auth Buttons */}
+      <div style={{ display: 'flex', gap: '18px', alignItems: 'center' }}>
         {token ? (
-          <Button
-            variant="contained"
-            onClick={signout}
-            startIcon={<BsBoxSeam />}
-            sx={{
-              textTransform: 'none',
-              backgroundColor: '#007BFF',
-              '&:hover': { backgroundColor: '#0056b3' },
-              borderRadius: '8px',
-              padding: '6px 18px',
-            }}
-          >
-            Logout
-          </Button>
-        ) : (
-          <>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
             <Button
-              variant="outlined"
-              component={Link}
-              to="/log-in"
-              startIcon={<BsSearch />}
+              variant="contained"
+              onClick={signout}
+              startIcon={<BsBoxSeam />}
               sx={{
                 textTransform: 'none',
-                borderColor: '#007BFF',
-                color: '#007BFF',
-                borderRadius: '8px',
+                background: 'linear-gradient(135deg, #007BFF, #0056b3)',
+                color: 'white',
+                fontFamily: 'Poppins, sans-serif',
+                borderRadius: '10px',
+                padding: '7px 20px',
+                fontWeight: 600,
+                fontSize: '15px',
+                boxShadow: '0 3px 10px rgba(0, 123, 255, 0.3)',
                 '&:hover': {
-                  backgroundColor: 'rgba(0,123,255,0.1)',
-                  borderColor: '#007BFF',
+                  background: 'linear-gradient(135deg, #0056b3, #0041a8)',
                 },
               }}
             >
-              Login
+              Logout
             </Button>
-            <Button
-              variant="contained"
-              component={Link}
-              to="/sign-up"
-              sx={{
-                textTransform: 'none',
-                backgroundColor: '#007BFF',
-                '&:hover': { backgroundColor: '#0056b3' },
-                borderRadius: '8px',
-                padding: '6px 18px',
-              }}
-            >
-              Sign Up
-            </Button>
+          </motion.div>
+        ) : (
+          <>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+              <Button
+                variant="outlined"
+                component={Link}
+                to="/log-in"
+                startIcon={<BsSearch />}
+                sx={{
+                  textTransform: 'none',
+                  borderColor: '#007BFF',
+                  color: '#007BFF',
+                  borderRadius: '10px',
+                  fontFamily: 'Poppins, sans-serif',
+                  padding: '7px 20px',
+                  fontWeight: 600,
+                  fontSize: '15px',
+                  '&:hover': {
+                    backgroundColor: 'rgba(0,123,255,0.08)',
+                    borderColor: '#007BFF',
+                  },
+                }}
+              >
+                Login
+              </Button>
+            </motion.div>
+
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+              <Button
+                variant="contained"
+                component={Link}
+                to="/sign-up"
+                sx={{
+                  textTransform: 'none',
+                  background: 'linear-gradient(135deg, #007BFF, #0056b3)',
+                  color: 'white',
+                  borderRadius: '10px',
+                  padding: '7px 20px',
+                  fontFamily: 'Poppins, sans-serif',
+                  fontWeight: 600,
+                  fontSize: '15px',
+                  boxShadow: '0 3px 10px rgba(0, 123, 255, 0.3)',
+                  '&:hover': {
+                    background: 'linear-gradient(135deg, #0056b3, #0041a8)',
+                  },
+                }}
+              >
+                Sign Up
+              </Button>
+            </motion.div>
           </>
         )}
       </div>

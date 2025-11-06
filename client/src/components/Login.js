@@ -10,7 +10,7 @@ import {
   Divider,
   CircularProgress,
 } from "@mui/material";
-import "./Login.css";
+import "../styles//Login.css";
 
 function Login() {
   const [loading, setLoading] = useState(false);
