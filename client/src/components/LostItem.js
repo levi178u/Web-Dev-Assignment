@@ -1,32 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { motion } from 'framer-motion'
-import { FcAbout } from 'react-icons/fc';
-import { FcOvertime } from 'react-icons/fc';
-
-import { Link } from 'react-router-dom'
+import { motion } from "framer-motion";
+import { FcAbout, FcOvertime } from "react-icons/fc";
+import { Link } from "react-router-dom";
 import { setConstraint } from "../constraints";
-import {
-  Button,
-  Typography,
-  Card,
-  CardContent,
-  Avatar,
-  Stack,
-  Pagination,
-} from '@mui/material'
+import { Button, Typography, Pagination, Avatar } from "@mui/material";
 import Axios from "axios";
+import "../styles/LostItem.css";
 
 const Paginationn = ({ page, setPage, max }) => {
-  const handleChange = (event, page) => {
-    setPage(page);
-  };
+  const handleChange = (_, value) => setPage(value);
 
   return (
     <Pagination
-      sx={{ pt: "80px" }}
+      sx={{ pt: "50px" }}
       count={Math.ceil(max)}
       page={page}
       onChange={handleChange}
+      color="primary"
       showLastButton
       showFirstButton
     />
@@ -34,238 +24,116 @@ const Paginationn = ({ page, setPage, max }) => {
 };
 
 export default function LostItems() {
-
-  const [user_info, setuser_info] = useState(
+  const [user_info, setUserInfo] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
-
-  const ReadMore = ({ children }) => {
-    const text = children;
-    const [isReadMore, setIsReadMore] = useState(true);
-    const toggleReadMore = () => {
-      setIsReadMore(!isReadMore);
-    };
-    return (
-      <p style={{ fontSize: "1rem" }} className="text">
-        {isReadMore ? text.slice(0, 15) : text}
-        <span onClick={toggleReadMore} className="read-or-hide">
-          {isReadMore ? "...." : " show less"}
-        </span>
-      </p>
-    );
-  };
-  setConstraint(true);
-  
-  const [item, setitem] = useState("");
+  const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
   const [maxPages, setMaxPages] = useState(1);
 
+  setConstraint(true);
+
   useEffect(() => {
-    
-    Axios({
-      url: "http://localhost:4000/items",
-      method: "GET",
-    })
-      .then((response) => {      
-      const allitems = response.data.items.reverse();
-      const itemsPerPage = 9;
-      const numItems = allitems.length;
-      setMaxPages(Math.ceil(numItems / itemsPerPage));
-      const startIndex = (page - 1) * itemsPerPage;
-      const endIndex = startIndex + itemsPerPage;
-      const data = allitems.slice(startIndex, endIndex);
+    Axios.get("http://localhost:4000/items")
+      .then((response) => {
+        const allItems = response.data.items.reverse();
+        const itemsPerPage = 9;
+        const numItems = allItems.length;
+        setMaxPages(Math.ceil(numItems / itemsPerPage));
 
-        let items = [];
-        data.map((item) => {
-          let created_date = new Date(item.createdAt);
-        
-          let createdAt =
-            created_date.getDate() +
-            "/" +
-            created_date.getMonth() +
-            "/" +
-            created_date.getFullYear() +
-            " " +
-            created_date.getHours() +
-            ":" +
-            created_date.getMinutes();
-          
-          if (item.type === "Lost") {
-            let user = false;
-            if (item.userId === user_info._id) {
-              user = true;
-            }
-          
-            items.push(
-              <motion.div
-              whileHover={{ scale: [null, 1.05, 1.05] }}
-              transition={{ duration: 0.4 }}
-              key={item.name}
-          >
-              <Card
-                  sx={{
-                      width: '270px',
-                      height: '400px',
-                      boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-                  }}
-              >
-                  <CardContent
-                      sx={{
-                          borderRadius: '8px',
-                          padding: '8px',
-                          gap: '16px',
-                      }}
-                  >
-                      <Stack
-                          alignItems="center"
-                          justifyContent="center"
-                          flexDirection="row"
-                          position="relative"
-                          sx={{
-                              backgroundColor: '#9CC0DF',
-                              height: '200px',
-                              borderRadius: '8px',
-                          }}
-                      >
-                          <Stack
-                              sx={{
-                                  borderRadius: '7rem',
-                              }}
-                          >
-                              <Avatar
-                                  src={item.img}
-                                  sx={{
-                                      width: '190px',
-                                      height: '190px',
-                                  }}
-                              />
-                          </Stack>
-                          
-                      </Stack>
-                      <Stack p="11px" gap="11px">
-                          <Typography
-                              noWrap
-                              gutterBottom
-                              fontSize="25px"
-                              component="div"
-                              fontWeight={'bold'}
-                              m="0"
-                              sx={{
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'flex-start',
-                                  gap: '16px',
-                              }}
-                          >
-                              {item.name}
-                  
-                          </Typography>
-                  
-                          </Stack>
-                          <Stack direction="row" width="100%" gap="15px">
-                              <FcAbout fontSize="25px" />
-                                  <Typography
-                                      // ml="5px"
-                                      noWrap
-                                      fontSize="16px"
-                                      color="black"
-                                      width="100%"
-                                  >
-                                      {item.description.toString().slice(0, 30)} ...
-                                  </Typography>
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const data = allItems.slice(startIndex, endIndex);
 
-                          </Stack>
-                          <Stack pb="19px" pt="11px"  direction="row" width="100%" gap="15px">
-                                        <FcOvertime fontSize="25px" />
-                                        <Typography
-                                            ml="5px"
-                                            noWrap
-                                            fontSize="16px"
-                                            color="black"
-                                        >
-                                         {createdAt}
-                                        </Typography>
-                                  </Stack>
-                              <motion.div whileTap={{ scale: 0.98 }}>
-                                  <Button
-                                      component={Link}
-                                      to={`/${item.name}?cid=${item._id}&type=${item.type}/${user}`}
-                                      variant={'contained'}
-                                      color= 'primary'
-                                      sx={{
-                                          textTransform: 'none',
-                                          width: '140px',
-                                          borderRadius: '8px',
-                                          
-                                      }}
-                                  >
-                                      More Details
-                                  </Button>
-                              </motion.div>
-                  </CardContent>
-              </Card>
-          </motion.div>
-            );
-          }
-        });
-        setitem(items);
+        const lostItems = data.filter((item) => item.type === "Lost");
+        setItems(lostItems);
       })
-      .catch((err) => {
-        console.log("Error :", err);
-      });
+      .catch((err) => console.error("Error:", err));
   }, [page]);
 
-  return (     
-     
-     <><Stack
-      direction="row"
-      width="100%"
-      sx={{ backgroundColor: 'primary.main' }}
-      height="125px"
-      gap="4px"
-      alignItems="center"
-      justifyContent="center"
-      
-    >
-      <Stack
-        spacing={0}
-        position="relative"
-        justifyContent="center"
-        width="100%"
-        maxWidth="1440px"
-        height="125px"
-        overflow="hidden"
-        ml={{ xs: 3, sm: 5, md: 10 }}
-      >
+  return (
+    <div className="lost-page">
+      {/* Header */}
+      <div className="lost-header">
+        <Typography variant="h5" color="white" sx={{ fontWeight: 500 }}>
+          Welcome {user_info?.nickname} 👋
+        </Typography>
+        <Typography variant="h6" color="white" sx={{ fontWeight: "bold" }}>
+          Here you can find all Lost Items 🧳
+        </Typography>
+      </div>
 
-        <>
-          <Typography fontSize={{ xs: '18px', sm: '22px', md: '25px' }} color="white" fontWeight="">
-            Welcome {user_info.nickname} 👋!
+      {/* Grid Container */}
+      <div className="lost-grid">
+        {items.length > 0 ? (
+          items.map((item) => {
+            const date = new Date(item.createdAt);
+            const createdAt = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+
+            const isUser = item.userId === user_info._id;
+
+            return (
+              <motion.div
+                key={item._id}
+                className="lost-card"
+                whileHover={{ scale: 1.04 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="lost-card-img">
+                  <Avatar
+                    src={item.img}
+                    alt={item.name}
+                    sx={{ width: 180, height: 180 }}
+                  />
+                </div>
+
+                <div className="lost-card-content">
+                  <Typography variant="h6" fontWeight="bold">
+                    {item.name}
+                  </Typography>
+
+                  <div className="lost-info">
+                    <FcAbout size={22} />
+                    <Typography variant="body2">
+                      {item.description.toString().slice(0, 40)}...
+                    </Typography>
+                  </div>
+
+                  <div className="lost-info">
+                    <FcOvertime size={22} />
+                    <Typography variant="body2">{createdAt}</Typography>
+                  </div>
+
+                  <motion.div whileTap={{ scale: 0.97 }}>
+                    <Button
+                      component={Link}
+                      to={`/${item.name}?cid=${item._id}&type=${item.type}/${isUser}`}
+                      variant="contained"
+                      fullWidth
+                      sx={{
+                        textTransform: "none",
+                        borderRadius: "8px",
+                        mt: 1,
+                      }}
+                    >
+                      More Details
+                    </Button>
+                  </motion.div>
+                </div>
+              </motion.div>
+            );
+          })
+        ) : (
+          <Typography color="gray" variant="body1">
+            No lost items found 😔
           </Typography>
+        )}
+      </div>
 
-          <Typography
-            fontSize={{ xs: '17px', sm: '21px', md: '23px' }}
-            color="white"
-            fontWeight="bold"
-          >
-            Here you can find the Lost Items
-          </Typography>
-        </>
-      </Stack>
-      </Stack>
-
-    <Stack
-      pt="20px"
-      direction="row"
-      justifyContent={'center'}
-      flexWrap="wrap"
-      gap="24px"
-      maxWidth="1440px"
-    >
-        {item}
-      </Stack>
-  
-      <Paginationn page={page} setPage={setPage} max={maxPages} />
-      </>
+      {/* Pagination */}
+      <div className="lost-pagination">
+        <Paginationn page={page} setPage={setPage} max={maxPages} />
+      </div>
+    </div>
   );
 }

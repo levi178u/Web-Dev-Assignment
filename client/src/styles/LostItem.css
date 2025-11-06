@@ -1,0 +1,73 @@
+.lost-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f7fafc;
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* Header */
+.lost-header {
+  background-color: #1976d2;
+  color: white;
+  width: 100%;
+  text-align: center;
+  padding: 25px 0;
+  margin-bottom: 30px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Grid Layout */
+.lost-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 24px;
+  justify-items: center;
+  width: 90%;
+  max-width: 1200px;
+}
+
+/* Card */
+.lost-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+  transition: all 0.3s ease;
+  width: 270px;
+  padding: 16px;
+}
+
+.lost-card:hover {
+  box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.lost-card-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e3f2fd;
+  border-radius: 10px;
+  height: 180px;
+  margin-bottom: 12px;
+}
+
+.lost-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.lost-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Pagination */
+.lost-pagination {
+  margin-top: 40px;
+}

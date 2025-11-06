@@ -13,7 +13,7 @@ import {
   LinearProgress,
 } from "@mui/material";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
-import "./Signup.css";
+import "../styles/Signup.css";
 
 function Signup() {
   const [progress, setProgress] = useState(0);
