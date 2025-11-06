@@ -1,0 +1,26 @@
+/* ====== Global Reset ====== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ====== Ensure body fills the full viewport height ====== */
+html, body, #root {
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9fafc;
+  color: #333;
+}
+
+/* ====== Layout for non-fixed footer ====== */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Ensures main content takes up available space before footer */
+.content-wrap {
+  flex: 1;
+}
